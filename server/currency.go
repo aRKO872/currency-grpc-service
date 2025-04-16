@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	"currency-dummy-grpc-service/protos/currency"
+	"github.com/aRKO872/currency-dummy-grpc-service/protos/currency"
 
 	"github.com/hashicorp/go-hclog"
 )
