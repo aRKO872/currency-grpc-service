@@ -1,4 +1,4 @@
-module github.com/aRKO872/currency-dummy-grpc-service
+module github.com/aRKO872/currency-grpc-service
 
 go 1.24.1
 

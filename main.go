@@ -1,8 +1,8 @@
 package main
 
 import (
-	protos "github.com/aRKO872/currency-dummy-grpc-service/protos/currency"
-	"github.com/aRKO872/currency-dummy-grpc-service/server"
+	protos "github.com/aRKO872/currency-grpc-service/protos/currency"
+	"github.com/aRKO872/currency-grpc-service/server"
 	"net"
 	"os"
 
