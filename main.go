@@ -1,10 +1,12 @@
 package main
 
 import (
-	protos "github.com/aRKO872/currency-grpc-service/protos/currency"
-	"github.com/aRKO872/currency-grpc-service/server"
 	"net"
 	"os"
+
+	"github.com/aRKO872/currency-grpc-service/data"
+	protos "github.com/aRKO872/currency-grpc-service/protos/currency"
+	"github.com/aRKO872/currency-grpc-service/server"
 
 	"github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
@@ -14,8 +16,14 @@ import (
 func main () {
 	log := hclog.Default()
 
+	er, err := data.NewRates(log)
+	if err != nil {
+		log.Error("error creating new rates object", "closing", err.Error)
+		os.Exit(1)
+	}
+
 	gs := grpc.NewServer()
-	cs := server.NewCurrency(log)
+	cs := server.NewCurrency(er, log)
 	
 	protos.RegisterCurrencyServer(gs, cs)
 
