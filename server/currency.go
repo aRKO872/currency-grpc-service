@@ -2,6 +2,8 @@ package server
 
 import (
 	"context"
+
+	"github.com/aRKO872/currency-grpc-service/data"
 	"github.com/aRKO872/currency-grpc-service/protos/currency"
 
 	"github.com/hashicorp/go-hclog"
@@ -9,11 +11,13 @@ import (
 
 type Currency struct {
 	log hclog.Logger
+	er *data.ExchangeRates
 	currency.UnimplementedCurrencyServer
 }
 
-func NewCurrency(log hclog.Logger) *Currency {
+func NewCurrency(er *data.ExchangeRates, log hclog.Logger) *Currency {
 	return &Currency{
+		er: er,
 		log: log,
 	}
 }
@@ -30,7 +34,10 @@ func NewCurrency(log hclog.Logger) *Currency {
 
 func (c *Currency) GetRate(ctx context.Context, protoReq *currency.RateRequest) (*currency.RateResponse, error) {
 	c.log.Info("info logged", "base", protoReq.GetBase(), "dest", protoReq.GetDestination())
+
+	rate, err := c.er.GetRate(protoReq.Base.String(), protoReq.Destination.String())
+
 	return &currency.RateResponse{
-		Rate: 0.5,
-	}, nil
+		Rate: rate,
+	}, err
 }
